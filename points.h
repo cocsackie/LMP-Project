@@ -11,4 +11,6 @@ typedef struct {
 
 int read_pts_failed ( FILE* inf, points_t *pts);
 
+void dealloc_pts ( points_t *pts );
+
 #endif

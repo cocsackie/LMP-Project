@@ -23,6 +23,16 @@ char *usage =
   "               - n_points must be > 1\n"
   "            endif\n";
 
+
+static points_t pts;
+static spline_t spl;
+
+void free_memory()
+{
+	dealloc_spl(&spl);
+	dealloc_pts(&pts);
+}
+
 int
 main (int argc, char **argv)
 {
@@ -33,10 +43,9 @@ main (int argc, char **argv)
   double fromX = 0;
   double toX = 0;
   int n = 100;
-	char *progname= argv[0];
+  char *progname= argv[0];
 
-  points_t pts;
-  spline_t spl;
+  atexit(free_memory);
 
   pts.n = 0;
   spl.n = 0;

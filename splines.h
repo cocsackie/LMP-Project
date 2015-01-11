@@ -14,6 +14,8 @@ typedef struct {
 
 int alloc_spl( spline_t *spl, int n );
 
+void dealloc_spl( spline_t * spl );
+
 int  read_spl ( FILE *inf,  spline_t *spl );
 
 void  write_spl ( spline_t *spl, FILE * ouf );
