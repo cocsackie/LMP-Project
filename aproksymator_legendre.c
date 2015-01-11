@@ -224,7 +224,7 @@ void make_spl(points_t * pts, spline_t * spl)
 		return;
 	}
 
-	if (alloc_spl(spl, pts->n) == 0) {
+	if (alloc_spl(spl, nb*4) == 0) {
 		for (i = 0; i < spl->n; i++) {
 			double xx = spl->x[i] = a + i*(b-a)/(spl->n-1);
 			xx+= 10.0*DBL_EPSILON;  // zabezpieczenie przed ulokowaniem punktu w poprzednim przedziale
