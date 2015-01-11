@@ -13,7 +13,7 @@
  * Funkcje bazowe: n - liczba funkcji a,b - granice przedzialu aproksymacji i
  * - numer funkcji x - wspolrzedna dla ktorej obliczana jest wartosc funkcji
  */
-double fi(double a, double b, int n, int i, double x)
+double fi(int i, double x)
 {	
 	long double sX = x;
 	long double sX2 = sX*sX;
@@ -60,7 +60,7 @@ double fi(double a, double b, int n, int i, double x)
 }
 
 /* Pierwsza pochodna fi */
-double dfi(double a, double b, int n, int i, double x)
+double dfi(int i, double x)
 {
 	long double sX = x;
 	long double sX2 = sX*sX;
@@ -106,7 +106,7 @@ double dfi(double a, double b, int n, int i, double x)
 }
 
 /* Druga pochodna fi */
-double d2fi(double a, double b, int n, int i, double x)
+double d2fi(int i, double x)
 {
 	long double sX = x;
 	long double sX2 = sX*sX;
@@ -117,8 +117,6 @@ double d2fi(double a, double b, int n, int i, double x)
 	long double sX7 = sX6*sX;
 	long double sX8 = sX7*sX;
 	long double sX9 = sX8*sX;
-	long double sX10 = sX9*sX;
-	long double sX11 = sX10*sX;
 
 	switch( i )
 	{
@@ -152,7 +150,7 @@ double d2fi(double a, double b, int n, int i, double x)
 }
 
 /* Trzecia pochodna fi */
-double d3fi(double a, double b, int n, int i, double x)
+double d3fi(int i, double x)
 {
 	long double sX = x;
 	long double sX2 = sX*sX;
@@ -162,9 +160,6 @@ double d3fi(double a, double b, int n, int i, double x)
 	long double sX6 = sX5*sX;
 	long double sX7 = sX6*sX;
 	long double sX8 = sX7*sX;
-	long double sX9 = sX8*sX;
-	long double sX10 = sX9*sX;
-	long double sX11 = sX10*sX;
 
 	switch( i )
 	{
@@ -217,10 +212,10 @@ void make_spl(points_t * pts, spline_t * spl)
 	for (j = 0; j < nb; j++) {
 		for (i = 0; i < nb; i++)
 			for (k = 0; k < pts->n; k++)
-				add_to_entry_matrix(eqs, j, i, fi(a, b, nb, i, x[k]) * fi(a, b, nb, j, x[k]));
+				add_to_entry_matrix(eqs, j, i, fi(i, x[k]) * fi(j, x[k]));
 
 		for (k = 0; k < pts->n; k++)
-			add_to_entry_matrix(eqs, j, nb, y[k] * fi(a, b, nb, j, x[k]));
+			add_to_entry_matrix(eqs, j, nb, y[k] * fi(j, x[k]));
 	}
 
 
@@ -239,10 +234,10 @@ void make_spl(points_t * pts, spline_t * spl)
 			spl->f3[i] = 0;
 			for (k = 0; k < nb; k++) {
 				double		ck = get_entry_matrix(eqs, k, nb);
-				spl->f[i]  += ck * fi  (a, b, nb, k, xx);
-				spl->f1[i] += ck * dfi (a, b, nb, k, xx);
-				spl->f2[i] += ck * d2fi(a, b, nb, k, xx);
-				spl->f3[i] += ck * d3fi(a, b, nb, k, xx);
+				spl->f[i]  += ck * fi  (k, xx);
+				spl->f1[i] += ck * dfi (k, xx);
+				spl->f2[i] += ck * d2fi(k, xx);
+				spl->f3[i] += ck * d3fi(k, xx);
 			}
 		}
 	}
